@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # MovieWatchlist
 =======
 
@@ -126,4 +126,3 @@ The frontend will be running at http://localhost:3000 (or another port specified
 - Frontend (React + Vite):
 
     http://localhost:3000 - React front-end served by Vite.
->>>>>>> 81b3d86 (added readme file)

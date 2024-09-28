@@ -1,7 +1,4 @@
 
-# MovieWatchlist
-=======
-
 # Movie Watchlist 
 
 **Users can:**

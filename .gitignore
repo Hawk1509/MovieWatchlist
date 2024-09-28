@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.env
+
+# MySQL database files
+*.db
+
+# IDE specific files
+.idea/
+*.iml
+

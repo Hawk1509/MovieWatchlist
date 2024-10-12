@@ -1,8 +1,17 @@
 from flask import Flask,render_template, url_for, flash, redirect
+#from flask_sqlalchemy import SQLAlchemy
+from db_models import  db,User, Movie, Watchlist, Genre, Rating, MovieGenre
 from forms import RegistrationForm, LoginForm
-app = Flask(__name__)
 
+
+#db = SQLAlchemy()
+
+app = Flask(__name__)
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
+
+db.init_app(app)
 
 
 posts = [
@@ -108,4 +117,6 @@ def login():
 
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

@@ -78,3 +78,42 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+/* Default light mode styles */
+body {
+    background-color: white;
+    color: black;
+}
+
+.navbar {
+    background-color: #333;
+}
+
+.navbar-brand, .nav-link {
+    color: white;
+}
+
+/* Dark mode styles */
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode .navbar {
+    background-color: #222;
+}
+
+.dark-mode .navbar-brand, .dark-mode .nav-link {
+    color: #f0f0f0;
+}
+
+.dark-mode .list-group-item {
+    background-color: #333;
+    color: white;
+}
+
+.dark-mode .alert {
+    background-color: #444;
+    color: white;
+}
+

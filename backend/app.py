@@ -3,16 +3,15 @@ from flask import Flask,render_template, url_for, flash, redirect
 from db_models import  db,User, Movie, Watchlist, Genre, Rating, MovieGenre
 from forms import RegistrationForm, LoginForm
 
-
 #db = SQLAlchemy()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
-
 
 posts = [
     {
@@ -104,6 +103,16 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html',title='Register',form=form)
 
+@app.route('/users')
+def users():
+    users = User.query.all()
+    return render_template('users.html',users=users)
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'User': User, 'Movie': Movie, 'Watchlist': Watchlist, 'Genre': Genre, 'Rating': Rating, 'MovieGenre': MovieGenre}
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -117,6 +126,8 @@ def login():
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+        with app.app_context():
+            db.create_all()
+            print("database populated!!!!")
+        app.run(debug=True)
+

@@ -1,17 +1,14 @@
 from flask import Flask,render_template, url_for, flash, redirect
-#from flask_sqlalchemy import SQLAlchemy
 from db_models import  db,User, Movie, Watchlist, Genre, Rating, MovieGenre
 from forms import RegistrationForm, LoginForm
-
-#db = SQLAlchemy()
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
 db.init_app(app)
+bcrypt = Bcrypt(app)
 
 posts = [
     {
@@ -99,8 +96,12 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account has been created! You can now login', 'success')
+        return redirect(url_for('login'))
     return render_template('register.html',title='Register',form=form)
 
 @app.route('/users')

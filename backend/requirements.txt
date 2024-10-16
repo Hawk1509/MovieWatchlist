@@ -1,7 +1,9 @@
 aniso8601==6.0.0
+bcrypt==4.2.0
 blinker==1.8.2
 click==8.1.7
 Flask==2.2.2
+Flask-Bcrypt==1.0.1
 Flask-GraphQL==2.0.1
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.2.1
@@ -14,11 +16,14 @@ itsdangerous==2.2.0
 Jinja2==3.1.4
 MarkupSafe==3.0.0
 mysql-connector-python==8.0.25
+pillow==11.0.0
 promise==2.3
 protobuf==5.28.2
 Rx==1.6.3
 six==1.16.0
 SQLAlchemy==1.4.46
+svgwrite==1.4.3
+Tree==0.2.4
 typing_extensions==4.12.2
 Werkzeug==2.2.2
 WTForms==3.1.2

@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user, current_user, logout_user
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from db_models import User, Movie, Watchlist, Genre, Rating, MovieGenre
 from forms import RegistrationForm, LoginForm
 
@@ -14,6 +14,7 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
 posts = [
     {
@@ -133,8 +134,9 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('home'))
-#            flash('Logged in', 'success')
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        #            flash('Logged in', 'success')
         else:
             flash('Invalid Credentials! Please check your email and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -144,8 +146,10 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-
-
+@app.route("/account")
+@login_required
+def account():
+        return render_template("account.html")
 
 if __name__ == '__main__':
         with app.app_context():

@@ -86,7 +86,7 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html',posts=posts)
+    return render_template(' home.html',posts=posts)
 
 @app.route("/about")
 def about():
@@ -112,7 +112,6 @@ def users():
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User, 'Movie': Movie, 'Watchlist': Watchlist, 'Genre': Genre, 'Rating': Rating, 'MovieGenre': MovieGenre}
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

@@ -1,14 +1,19 @@
-from flask import Flask,render_template, url_for, flash, redirect
-from db_models import  db,User, Movie, Watchlist, Genre, Rating, MovieGenre
-from forms import RegistrationForm, LoginForm
+from flask import Flask, render_template, url_for, flash, redirect
+from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, current_user
+from db_models import User, Movie, Watchlist, Genre, Rating, MovieGenre
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 posts = [
     {
@@ -86,7 +91,7 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template(' home.html',posts=posts)
+    return render_template('home.html',posts=posts)
 
 @app.route("/about")
 def about():
@@ -104,6 +109,10 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html',title='Register',form=form)
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 @app.route('/users')
 def users():
     users = User.query.all()
@@ -117,9 +126,11 @@ def make_shell_context():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@movies.com' and form.password.data == 'password':
-            flash('You have been logged in!', 'success')
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.remember.data)
             return redirect(url_for('home'))
+#            flash('Logged in', 'success')
         else:
             flash('Invalid Credentials! Please check your email and password.', 'danger')
     return render_template('login.html', title='Login', form=form)

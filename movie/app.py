@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -7,9 +8,12 @@ from forms import RegistrationForm, LoginForm
 from flask_migrate import Migrate, upgrade
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(basedir, "instance", "site.db")}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 #db = SQLAlchemy(app)
 db.init_app(app)

@@ -1,9 +1,12 @@
+import os
+import secrets
+from PIL import Image
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from db_models import db, User, Movie, Watchlist, Genre, Rating, MovieGenre
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_migrate import Migrate, upgrade
 
 app = Flask(__name__)
@@ -11,7 +14,6 @@ app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#db = SQLAlchemy(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
@@ -149,11 +151,41 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/account")
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/pic', picture_fn)
+
+    output_size = (125,125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+
+    i.save(picture_path)
+
+    return picture_fn
+
+
+
+@app.route("/account",  methods=['GET', 'POST'])
 @login_required
 def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
     image_file = url_for('static', filename='pic/'+current_user.image_file)
-    return render_template("account.html", title='Account', image_file=image_file)
+    return render_template("account.html", title='Account',
+                           image_file=image_file, form=form)
 
 if __name__ == '__main__':
         with app.app_context():

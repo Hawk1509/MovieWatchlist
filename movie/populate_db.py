@@ -2,14 +2,12 @@ from faker import Faker
 from sqlalchemy.exc import IntegrityError
 from random import randint, choice
 from werkzeug.security import generate_password_hash
-from db_models import db, User, Watchlist, Rating, Movie, Genre, MovieGenre  # Import movie_genres association table
+from db_models import db, User, Watchlist, Rating, Movie, Genre, MovieGenre
 from app import app
 
 fake = Faker()
 
-# Password for all users
 hashed_password = generate_password_hash('123')
-
 
 def create_users():
     for _ in range(5):
@@ -24,16 +22,27 @@ def create_users():
 
 
 def create_movies():
+    sample_images = [
+        'https://via.placeholder.com/150',  # Placeholder image
+        'https://via.placeholder.com/150/FF0000/FFFFFF?text=Action',
+        'https://via.placeholder.com/150/00FF00/FFFFFF?text=Comedy',
+        'https://via.placeholder.com/150/0000FF/FFFFFF?text=Drama',
+        'https://via.placeholder.com/150/FFFF00/FFFFFF?text=Horror',
+        'https://via.placeholder.com/150/FF00FF/FFFFFF?text=Sci-Fi',
+    ]
+
     for _ in range(5):
         movie = Movie(
             title=fake.sentence(nb_words=3),
             director=fake.name(),
             release_year=fake.year(),
             duration=randint(90, 180),  # Duration in minutes
-            description=fake.text()
+            description=fake.text(),
+            image_url=choice(sample_images)  # Choose a random image from the sample list
         )
         db.session.add(movie)
     db.session.commit()
+
 
 
 def create_genres():
@@ -47,14 +56,12 @@ def create_genres():
 
 
 def create_movie_genres():
-    # Fetch all movies and genres from the database
     movies = Movie.query.all()
     genres = Genre.query.all()
 
     for movie in movies:
-        # Randomly choose a number of genres to associate with the movie (e.g., between 1 and 3)
-        chosen_genres = choice(genres)  # Choose a random genre
-        movie.genres.append(chosen_genres)  # Append the chosen genre to the movie
+        chosen_genres = choice(genres)
+        movie.genres.append(chosen_genres)
 
     db.session.commit()  # Commit the changes
 
@@ -94,11 +101,11 @@ def create_ratings():
 if __name__ == "__main__":
     # Initialize the database and populate the tables
     with app.app_context():
-        db.create_all()  # Make sure all tables are created
+        db.create_all()
         create_users()
         create_movies()
         create_genres()
-        create_movie_genres()  # Ensure this is called after create_movies and create_genres
+        create_movie_genres()
         create_watchlists()
         create_ratings()
 

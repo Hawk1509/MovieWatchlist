@@ -33,6 +33,7 @@ class Movie(db.Model):
     director = db.Column(db.String(100))
     duration = db.Column(db.Integer)
     description = db.Column(db.Text)
+    image_url = db.Column(db.String(255))
 
     watchlists = db.relationship('Watchlist', backref='movie', lazy=True)
     ratings = db.relationship('Rating', backref='movie', lazy=True)

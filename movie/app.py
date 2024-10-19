@@ -9,6 +9,7 @@ from db_models import db, User, Movie, Watchlist, Genre, Rating, MovieGenre
 from forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_migrate import Migrate, upgrade
 
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '0b89eaaafda4d7eb310aab385265275c'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
@@ -20,7 +21,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
-
+'''
 posts = [
     {
       "year": 2023,
@@ -92,12 +93,13 @@ posts = [
       "review": "A visually stunning war film that immerses viewers in the harrowing experience of a soldier's mission during WWI.",
       "runtime": 119
     }
-]
+]'''
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html',posts=posts)
+    movies = Movie.query.all()
+    return render_template('home.html', posts=movies)
 
 @app.route("/about")
 def about():

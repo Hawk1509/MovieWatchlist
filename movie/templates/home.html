@@ -1,8 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts %}
-        <h1>{{ post.title }}</h1>
-        <p>By {{ post.director }}</p>
-        <p>{{ post.review }}</p>
-    {% endfor %}
+{% for post in posts %}
+<div class="movie">
+    <h1>{{ post.title }} ({{ post.release_year }})</h1>
+    <p><strong>Director:</strong> {{ post.director }}</p>
+    <p><strong>Duration:</strong> {{ post.duration }} minutes</p>
+    <p><strong>Description:</strong> {{ post.description }}</p>
+
+    <p><strong>Genres:</strong>
+        {% for genre in post.genres %}
+        {{ genre.genre_name }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</div>
+<hr>
+{% endfor %}
 {% endblock content %}

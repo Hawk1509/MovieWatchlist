@@ -61,7 +61,7 @@ posts = [
     },
     {
       "year": 2021,
-      "title": "Spider-Man: No Way Home",
+      "title": "Spider-Man: No Home",
       "director": "Jon Watts",
       "review": "A thrilling entry into the Spider-Man franchise that brings together beloved characters from different universes.",
       "runtime": 148

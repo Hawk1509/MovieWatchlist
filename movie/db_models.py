@@ -14,8 +14,10 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     image_file = db.Column(db.String(255), nullable=False, default='default.jpg')
 
+    # Relationships
     watchlists = db.relationship('Watchlist', backref='user', lazy=True)
     ratings = db.relationship('Rating', backref='user', lazy=True)
+    favorite_genres = db.relationship('Genre', secondary='user_genres', backref='users')
 
     def get_id(self):
         return self.user_id
@@ -34,7 +36,9 @@ class Movie(db.Model):
     duration = db.Column(db.Integer)
     description = db.Column(db.Text)
     image_url = db.Column(db.String(255))
+    rating_average = db.Column(db.Float)  # New field for average rating
 
+    # Relationships
     watchlists = db.relationship('Watchlist', backref='movie', lazy=True)
     ratings = db.relationship('Rating', backref='movie', lazy=True)
     genres = db.relationship('Genre', secondary='movie_genres', back_populates='movies')
@@ -49,7 +53,9 @@ class Watchlist(db.Model):
     watchlist_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
-    status = db.Column(db.Enum('watched', 'watching', 'plan_to_watch'), default='plan_to_watch')
+
+    # Modified Enum with 'dropped' status
+    status = db.Column(db.Enum('watched', 'watching', 'plan_to_watch', 'dropped'), default='plan_to_watch')
     added_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def __repr__(self):
@@ -90,3 +96,13 @@ class Rating(db.Model):
 
     def __repr__(self):
         return f"<Rating(user_id={self.user_id}, movie_id={self.movie_id}, rating={self.rating}, review='{self.review}')>"
+
+
+# New Association Table for Many-to-Many Relationship between Users and Genres
+class UserGenre(db.Model):
+    __tablename__ = 'user_genres'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), primary_key=True)
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'), primary_key=True)
+
+    def __repr__(self):
+        return f"<UserGenre(user_id={self.user_id}, genre_id={self.genre_id})>"

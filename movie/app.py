@@ -119,12 +119,26 @@ def account():
 
 cache = Cache(app)
 
-
 @app.route('/movies')
 @cache.cached(timeout=60)
 def movies():
     posts = Movie.query.all()
     return render_template('home.html', posts=posts)
+
+@app.route('/movie/<int:movie_id>')
+def movie_detail(movie_id):
+    # Query the database for the specific movie
+    movie = Movie.query.get_or_404(movie_id)
+
+    # Get the movie genres (since you have a many-to-many relationship)
+    genres = ', '.join([genre.genre_name for genre in movie.genres])
+
+    # If you want to get user reviews and ratings, you can use:
+    reviews = Rating.query.filter_by(movie_id=movie_id).all()
+
+    # Render the movie detail page with the movie and review data
+    return render_template('movie_detail.html', movie=movie, genres=genres, reviews=reviews)
+
 
 if __name__ == '__main__':
         with app.app_context():

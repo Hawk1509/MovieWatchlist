@@ -4,19 +4,22 @@
         <div class="row">
             {% for post in posts %}
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }} image" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ post.title }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Director: {{ post.director }}</h6>
-                            <p class="card-text"><strong>Duration:</strong> {{ post.duration }} minutes</p>
-                            <p class="card-text"><strong>Genres:</strong>
-                               {% for genre in post.genres %}
-                                   {{ genre.genre_name }}{% if not loop.last %}, {% endif %}
-                               {% endfor %}
-                            </p>
+                    <!-- Link wrapping the card to make it clickable -->
+                    <a href="{{ url_for('movie_detail', movie_id=post.movie_id) }}" class="text-decoration-none text-dark">
+                        <div class="card">
+                            <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }} image" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Director: {{ post.director }}</h6>
+                                <p class="card-text"><strong>Duration:</strong> {{ post.duration }} minutes</p>
+                                <p class="card-text"><strong>Genres:</strong>
+                                   {% for genre in post.genres %}
+                                       {{ genre.genre_name }}{% if not loop.last %}, {% endif %}
+                                   {% endfor %}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>

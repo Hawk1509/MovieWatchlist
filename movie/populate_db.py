@@ -39,7 +39,7 @@ def delete_all_movies():
 
 def create_movies():
     sample_images = [
-        'https://via.placeholder.com/150',  # Placeholder image
+        'https://imgs.search.brave.com/IZeE2bFct2ZtgodqFtgLwWoZg9o8HSesk3MHpMGMyP4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tb3Zp/ZXMudW5pdmVyc2Fs/cGljdHVyZXMuY29t/L21lZGlhL29wci10/c3Ixc2hlZXQzLWxv/b2syLXJnYi0zLTEt/MS02NDU0NWMwZDE1/ZjFlLTEuanBn',  # Placeholder image
         'https://via.placeholder.com/150/FF0000/FFFFFF?text=Action',
         'https://via.placeholder.com/150/00FF00/FFFFFF?text=Comedy',
         'https://via.placeholder.com/150/0000FF/FFFFFF?text=Drama',
@@ -74,7 +74,7 @@ def create_movies():
         {"title": "Jawan", "director": "Atlee", "release_year": 2023, "duration": 169,
          "description": "A man confronts his enemies from the past.", "image_url": sample_images[5]},
         {"title": "Pathaan", "director": "Siddharth Anand", "release_year": 2023, "duration": 146,
-         "description": "An Indian spy stops an attack on his homeland.", "image_url": sample_images[0]},
+         "description": "An Indian spy stops an attack on his homeland.", "image_url": sample_images[2]},
     ]
 
     for movie_data in movie_list:

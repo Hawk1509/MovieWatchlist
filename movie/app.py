@@ -26,12 +26,11 @@ login_manager.login_message_category = 'info'
 @app.route("/")
 @app.route("/home")
 def home():
-    movies = Movie.query.all()
-    return render_template('home.html', posts=movies)
+    page = request.args.get('page', 1, type=int)
+    per_page = 6
+    movies = Movie.query.paginate(page, per_page, error_out=False)
 
-@app.route("/about")
-def about():
-    return render_template('about.html',title='About')
+    return render_template('home.html', posts=movies.items, current_page=movies.page, total_pages=movies.pages)
 
 @app.route("/register",methods=['GET', 'POST'])
 def register():
@@ -127,16 +126,16 @@ def movies():
 
 @app.route('/movie/<int:movie_id>')
 def movie_detail(movie_id):
-    # Query the database for the specific movie
+    # Query the database for the specific movie, or return a 404 error if not found
     movie = Movie.query.get_or_404(movie_id)
 
     # Get the movie genres (since you have a many-to-many relationship)
     genres = ', '.join([genre.genre_name for genre in movie.genres])
 
-    # If you want to get user reviews and ratings, you can use:
+    # Get user reviews and ratings for the movie
     reviews = Rating.query.filter_by(movie_id=movie_id).all()
 
-    # Render the movie detail page with the movie and review data
+    # Render the movie detail page with the movie, genres, and reviews
     return render_template('movie_detail.html', movie=movie, genres=genres, reviews=reviews)
 
 

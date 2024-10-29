@@ -1,119 +1,99 @@
 body {
-  background: #fafafa;
-  color: #333333;
-  margin-top: 5rem;
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text color */
+    margin-top: 5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+.movie-card {
+    background: #2d2d2d;
+    border: 1px solid #2d2d2d;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 10px; /* Padding adjusted for a more compact card */
+    transition: transform 0.2s;
+    height: 350px; /* Fixed height for rectangular cards */
+    display: flex;
+    flex-direction: column; /* Ensure vertical layout */
 }
 
-.bg-steel {
-  background-color: #5f788a;
+.card-img-top {
+    height: 200px; /* Keep image height fixed */
+    object-fit: cover; /* Maintain aspect ratio */
 }
 
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+.card-body {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    justify-content: space-between; /* Space out items evenly */
+    flex-grow: 1; /* Allow body to take available space */
 }
 
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+.card-title {
+    margin: 0; /* Remove margin to keep title compact */
 }
 
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+.card-subtitle {
+    margin-top: 5px; /* Small margin for subtitle */
 }
 
-.content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+.card-text {
+    margin-bottom: 0; /* Remove bottom margin for text */
 }
 
-.article-title {
-  color: #444444;
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
-a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
-}
-
-.article-content {
-  white-space: pre-line;
-}
-
-.article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
-}
-
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
-}
-
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
-}
-
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-}
-
-.account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
-}
-
-.account-heading {
-  font-size: 2.5rem;
-}
-
-/* Default light mode styles */
-body {
-    background-color: white;
-    color: black;
-}
-
-.navbar {
-    background-color: #333;
-}
-
-.navbar-brand, .nav-link {
+.pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5f788a;
     color: white;
+    cursor: pointer;
 }
 
-/* Dark mode styles */
+.pagination button:hover {
+    background-color: #3f5f6a; /* Darker hover color */
+}
+
+/* Other elements */
+h1, h2, h3, h4, h5, h6 {
+    color: #e0e0e0; /* Light headings */
+}
+
+input, textarea {
+    background-color: #2d2d2d; /* Dark input fields */
+    color: #e0e0e0; /* Light text */
+    border: 1px solid #444; /* Border for input fields */
+}
+
+/* Dark mode specific styles */
 .dark-mode {
     background-color: #121212;
-    color: white;
+    color: #e0e0e0;
+}
+body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
 }
 
-.dark-mode .navbar {
-    background-color: #222;
+.movie-detail {
+    background: #1e1e1e; /* Slightly lighter dark background for detail */
+    padding: 20px; /* Add some padding */
+    border-radius: 5px; /* Optional: to give it rounded corners */
+    margin: 20px; /* Optional: space around the detail section */
 }
 
-.dark-mode .navbar-brand, .dark-mode .nav-link {
-    color: #f0f0f0;
+h1, h3 {
+    color: #e0e0e0; /* Light color for headings */
 }
 
-.dark-mode .list-group-item {
-    background-color: #333;
-    color: white;
-}
-
-.dark-mode .alert {
-    background-color: #444;
-    color: white;
+p {
+    color: #d1d1d1; /* Slightly lighter text for paragraphs */
 }
 

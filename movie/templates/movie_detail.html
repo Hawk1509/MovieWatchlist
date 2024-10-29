@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ movie.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body>
-    <div class="movie-detail">
+<body class="bg-dark text-white"> <!-- Add dark background and white text -->
+    <div class="movie-detail container mt-4">
         <h1>{{ movie.title }}</h1>
 
-        <!-- Movie Poster -->
-        {% if movie.image_url %}
-            <img src="{{ movie.image_url }}" alt="{{ movie.title }} poster" style="width:200px;">
+        <!-- Trailer-->
+        <h3>Trailer:</h3>
+        {% if movie.trailer_url %}
+            <iframe width="560" height="315" src="{{ movie.trailer_url }}" frameborder="0" allowfullscreen></iframe>
         {% else %}
-            <img src="/static/default.jpg" alt="default poster" style="width:200px;">
+            <p>No trailer available.</p>
         {% endif %}
+
+
+
 
         <!-- Movie Information -->
         <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>

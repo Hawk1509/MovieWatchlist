@@ -36,7 +36,8 @@ class Movie(db.Model):
     duration = db.Column(db.Integer)
     description = db.Column(db.Text)
     image_url = db.Column(db.String(255))
-    rating_average = db.Column(db.Float)  # New field for average rating
+    rating_average = db.Column(db.Float)
+    trailer_url = db.Column(db.String(65532), nullable=True)
 
     # Relationships
     watchlists = db.relationship('Watchlist', backref='movie', lazy=True)

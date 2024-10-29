@@ -12,15 +12,17 @@ hashed_password = generate_password_hash('123')
 
 def create_users():
     for _ in range(5):
-        user = User(
-            username=fake.user_name(),
-            email=fake.email(),
-            password=hashed_password,
-            created_at=fake.date_time_this_year()
-        )
-        db.session.add(user)
+        username = fake.user_name()
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user is None:
+            user = User(
+                username=username,
+                email=fake.email(),
+                password=hashed_password,
+                created_at=fake.date_time_this_year()
+            )
+            db.session.add(user)
     db.session.commit()
-
 
 def reset_movies():
     # Step 1: Delete all existing movies
@@ -56,47 +58,47 @@ def create_movies():
     movie_list = [
         {"title": "Oppenheimer", "director": "Christopher Nolan", "release_year": 2023, "duration": 180,
          "description": "The story of J. Robert Oppenheimer and the creation of the atomic bomb.",
-         "image_url": sample_images[0],"trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "image_url": sample_images[0],"trailer_url":"https://youtu.be/embed/rAJ8VPXKxzInxT-y"},
 
         {"title": "Dune: Part Two", "director": "Denis Villeneuve", "release_year": 2024, "duration": 155,
          "description": "The continuation of Paul Atreides' journey to protect his people.",
-         "image_url": sample_images[1],"trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "image_url": sample_images[1],"trailer_url":"https://youtu.be/embed/Way9Dexny3w"},
 
         {"title": "The Batman", "director": "Matt Reeves", "release_year": 2022, "duration": 176,
          "description": "Batman uncovers corruption in Gotham City that connects to his own family.",
-         "image_url": sample_images[2],"trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "image_url": sample_images[2],"trailer_url":"https://youtu.be/embed/mqqft2x_Aa4"},
 
         {"title": "Spider-Man: No Way Home", "director": "Jon Watts", "release_year": 2021, "duration": 148,
          "description": "Peter Parker seeks help from Doctor Strange to restore his secret identity.",
-         "image_url": sample_images[3],"trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "image_url": sample_images[3],"trailer_url":"https://youtu.be/embed/JfVOs4VSpmA"},
 
         {"title": "Top Gun: Maverick", "director": "Joseph Kosinski", "release_year": 2022, "duration": 130,
          "description": "Maverick returns to train a new squad of Top Gun graduates.", "image_url": sample_images[4],
-         "trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url":"https://youtu.be/embed/giXco2jaZ_4"},
 
         {"title": "2018", "director": "Jude Anthony Joseph", "release_year": 2023, "duration": 150,
          "description": "A film about the Kerala floods.", "image_url": sample_images[5],
-         "trailer_url":"https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url":"https://youtu.be/embed/Af3cjNPhM4o"},
 
         {"title": "Jailer", "director": "Nelson Dilipkumar", "release_year": 2023, "duration": 168,
          "description": "A retired cop faces a criminal kingpin.", "image_url": sample_images[6],
-         "trailer_url": "https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url": "https://youtu.be/embed/Y5BeWdODPqo"},
 
         {"title": "Minnal Murali", "director": "Basil Joseph", "release_year": 2021, "duration": 158,
          "description": "An ordinary man gains superpowers.", "image_url": sample_images[7],
-         "trailer_url": "https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url": "https://youtu.be/embed/zAUAliz1TKA"},
 
         {"title": "Kurup", "director": "Srinath Rajendran", "release_year": 2021, "duration": 155,
          "description": "A story of the fugitive Sukumara Kurup.", "image_url": sample_images[8],
-         "trailer_url": "https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url": "https://youtu.be/embed/L13AUL0HkDk"},
 
         {"title": "Jawan", "director": "Atlee", "release_year": 2023, "duration": 169,
          "description": "A man confronts his enemies from the past.", "image_url": sample_images[9],
-         "trailer_url": "https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url": "https://youtu.be/embed/MWOlnZSnXJo"},
 
         {"title": "Pathaan", "director": "Siddharth Anand", "release_year": 2023, "duration": 146,
          "description": "An Indian spy stops an attack on his homeland.", "image_url": sample_images[10],
-         "trailer_url": "https://youtu.be/uYPbbksJxIg?si=LM7Ku3fLW2veF1oy"},
+         "trailer_url": "https://youtu.be/embed/vqu4z34wENw"},
     ]
 
     for movie_data in movie_list:
@@ -119,12 +121,14 @@ def create_movies():
 
 def create_genres():
     genre_list = ['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi']
+
     for genre_name in genre_list:
         existing_genre = Genre.query.filter_by(genre_name=genre_name).first()
-        if not existing_genre:
+        if existing_genre is None:
             genre = Genre(genre_name=genre_name)
             db.session.add(genre)
     db.session.commit()
+
 
 
 def create_movie_genres():
@@ -133,9 +137,10 @@ def create_movie_genres():
 
     for movie in movies:
         chosen_genres = choice(genres)
-        movie.genres.append(chosen_genres)
+        if chosen_genres not in movie.genres:
+            movie.genres.append(chosen_genres)
 
-    db.session.commit()  # Commit the changes
+    db.session.commit()
 
 
 def create_watchlists():
@@ -144,30 +149,46 @@ def create_watchlists():
     status_options = ['watching', 'plan_to_watch', 'watched']
 
     for _ in range(5):
-        watchlist = Watchlist(
-            user_id=choice(user_ids),
-            movie_id=choice(movie_ids),
-            status=choice(status_options),
-            added_at=fake.date_time_this_year()
-        )
-        db.session.add(watchlist)
+        user_id = choice(user_ids)
+        movie_id = choice(movie_ids)
+        existing_watchlist = Watchlist.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+        if existing_watchlist is None:
+            watchlist = Watchlist(
+                user_id=user_id,
+                movie_id=movie_id,
+                status=choice(status_options),
+                added_at=fake.date_time_this_year()
+            )
+            db.session.add(watchlist)
     db.session.commit()
-
 
 def create_ratings():
     user_ids = [user.user_id for user in User.query.all()]
     movie_ids = [movie.movie_id for movie in Movie.query.all()]
 
     for _ in range(5):
-        rating = Rating(
-            user_id=choice(user_ids),
-            movie_id=choice(movie_ids),
-            rating=randint(1, 10),
-            review=fake.text(),
-            rated_at=fake.date_time_this_year()
-        )
-        db.session.add(rating)
+        user_id = choice(user_ids)
+        movie_id = choice(movie_ids)
+        existing_rating = Rating.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+        if existing_rating is None:
+            rating = Rating(
+                user_id=user_id,
+                movie_id=movie_id,
+                rating=randint(1, 10),
+                review=fake.text(),
+                rated_at=fake.date_time_this_year()
+            )
+            db.session.add(rating)
     db.session.commit()
+
+def get_embedded_url(trailer_url):
+    if 'youtube.com/watch?v=' in trailer_url:
+        video_id = trailer_url.split('v=')[1]
+        return f'https://www.youtube.com/embed/{video_id}'
+    elif 'youtu.be/' in trailer_url:
+        video_id = trailer_url.split('/')[-1]
+        return f'https://www.youtube.com/watch?v={video_id}'
+    return trailer_url
 
 
 if __name__ == "__main__":

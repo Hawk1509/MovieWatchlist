@@ -6,20 +6,15 @@
 - See movie details
 - Log in/register
 - Watch movie trailers
-- Add movies to their list
-- Mark movies as watched
-- Rate movies
-- Delete movies
 
 ## Prerequisites
 Before you begin, ensure you have the following installed on your system:
 - [Python 3.x](https://www.python.org/downloads/)
-- [Node.js](https://nodejs.org/en/download/package-manager) (for frontend React/Vite)
-- [MySQL](https://www.mysql.com/downloads/)
+- [SQLite](https://www.sqlite.org/download.html)
 
 ### Backend Requirements:
 - Flask
-- MySQL
+- SQLite
 - GraphQL
 
 
@@ -32,19 +27,12 @@ Before you begin, ensure you have the following installed on your system:
 ## Technologies Used
 
 **Frontend:**
-- React+vite
-- CSS
+-Flask
 
 **Backend:**
-- Mysql
+- SQLite
 - Flask
 - GraphQL
-
-
-## API used
-
- - For movies: [TMDB](https://developer.themoviedb.org/docs/getting-started)
- - For IMDb scores: [IMBbOt](https://github.com/TelegramPlayGround/Free-Movie-Series-DB-API)
 
 
 ## Run Locally
@@ -65,7 +53,7 @@ Before you begin, ensure you have the following installed on your system:
 Navigate to backend/ directory and create a virtual environment
 
 ```bash
-  cd backend
+  cd movie
   python -m venv venv
 ```
 ## Activate the virtual environment
@@ -86,6 +74,11 @@ source venv/bin/activate
 
 ```
 
+##Populate the database
+```bash
+    python populate_db.py
+```
+
 ## Run the Backend Server
 ```bash
   python app.py
@@ -99,27 +92,3 @@ The Backend will be running at http://localhost:5000
 http://localhost:5000/graphql
 
 ```
-# Set Up the Frontend(React+Vite)
-
-- a) Install Node.js dependencies
-Navigate to the frontend/ directory and install the required packages: 
-
-```bash
-cd frontend
-npm install
-```
-- b) Run the Frontend Development Server
-Start the Vite development server:
-```bash
-npm run dev
-```
-The frontend will be running at http://localhost:3000 (or another port specified by Vite).
-
-# Summary of Local URLs
-- Backend (GraphQL endpoint):
-
-    http://localhost:5000/graphql - GraphiQL interface for testing GraphQL queries and mutations.
-
-- Frontend (React + Vite):
-
-    http://localhost:3000 - React front-end served by Vite.

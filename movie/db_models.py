@@ -50,18 +50,16 @@ class Movie(db.Model):
 
 # Watchlists Table
 class Watchlist(db.Model):
-    __tablename__ = 'watchlists'
+    __tablename__ = 'watchlist'  # This should match the actual table name in your database
     watchlist_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movies.movie_id'), nullable=False)
 
-    # Modified Enum with 'dropped' status
     status = db.Column(db.Enum('watched', 'watching', 'plan_to_watch', 'dropped'), default='plan_to_watch')
     added_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def __repr__(self):
         return f"<Watchlist(user_id={self.user_id}, movie_id={self.movie_id}, status='{self.status}')>"
-
 
 # Genres Table
 class Genre(db.Model):

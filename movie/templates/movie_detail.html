@@ -6,51 +6,55 @@
     <title>{{ movie.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body class="bg-dark text-white"> <!-- Add dark background and white text -->
+<body class="bg-dark text-white">
 <div class="movie-detail container mt-4">
     <h1>{{ movie.title }}</h1>
 
-    <!-- Trailer-->
+    <!-- Trailer -->
     <h3>Trailer:</h3>
     {% if movie.trailer_url %}
-
         {% set video_id = '' %}
         {% if 'youtube.com' in movie.trailer_url %}
             {% set video_id = movie.trailer_url.split('v=')[1].split('&')[0] %}
         {% elif 'youtu.be' in movie.trailer_url %}
             {% set video_id = movie.trailer_url.split('/')[-1] %}
         {% endif %}
-
         <iframe width="560" height="315"
-            src="https://www.youtube.com/embed/{{ video_id }}"
-            frameborder="0"
-            allowfullscreen>
+                src="https://www.youtube.com/embed/{{ video_id }}"
+                frameborder="0"
+                allowfullscreen>
         </iframe>
     {% else %}
-    <p>No trailer available.</p>
+        <p>No trailer available.</p>
     {% endif %}
-
 
     <!-- Movie Information -->
     <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
     <p><strong>Genres:</strong> {{ genres }}</p>
-
-    <!-- Movie Description -->
     <p><strong>Description:</strong> {{ movie.description }}</p>
+
+    <!-- Watchlist Button -->
+    <form action="{{ url_for('add_to_watchlist', movie_id=movie.movie_id) }}" method="POST">
+        {% if in_watchlist %}
+            <button type="submit" class="btn btn-secondary" disabled>Added to Watchlist</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+        {% endif %}
+    </form>
 
     <!-- Reviews Section -->
     <h3>User Reviews</h3>
     {% if reviews %}
-    <ul>
-        {% for review in reviews %}
-        <li>
-            <strong>Rating:</strong> {{ review.rating }}/10<br>
-            {{ review.review }}
-        </li>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <strong>Rating:</strong> {{ review.rating }}/10<br>
+                    {{ review.review }}
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <p>No reviews yet.</p>
+        <p>No reviews yet.</p>
     {% endif %}
 </div>
 </body>

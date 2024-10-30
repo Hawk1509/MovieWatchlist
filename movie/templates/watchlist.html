@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Your Watchlist</h1>
+{% if movies %}
+    <ul>
+    {% for movie in movies %}
+        <li>
+            <h2>{{ movie.title }}</h2>
+            <p>Release Year: {{ movie.release_year }}</p>
+            <p>Director: {{ movie.director }}</p>
+            <p>Description: {{ movie.description }}</p>
+            <img src="{{ movie.image_url }}" alt="{{ movie.title }} image">
+            <form action="{{ url_for('remove_from_watchlist', movie_id=movie.movie_id) }}" method="POST">
+                <button type="submit">Remove from Watchlist</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Your watchlist is empty.</p>
+{% endif %}
+{% endblock %}

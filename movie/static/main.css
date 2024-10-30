@@ -99,3 +99,15 @@ p {
     color: #d1d1d1; /* Slightly lighter text for paragraphs */
 }
 
+.btn-primary {
+    background-color: #1a73e8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #155ab8;
+}

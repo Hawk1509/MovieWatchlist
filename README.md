@@ -18,22 +18,6 @@ Before you begin, ensure you have the following installed on your system:
 - GraphQL
 
 
-
-## Screenshots
-
-### Home Page
-![Home Page Screenshot](https://github.com/Hawk1509/MovieWatchlist/screenshots/home.png)
-
-### Movie Details
-![Movie Details Screenshot](https://github.com/Hawk1509/MovieWatchlist/blob/main/screenshots/details.png)
-
-### Login/Register
-![Login/Register Screenshot](https://github.com/Hawk1509/MovieWatchlist/blob/main/screenshots/login.png)
-
-### GraphQL Interface
-![GraphQL Interface Screenshot](https://github.com/Hawk1509/MovieWatchlist/blob/main/screenshots/graphql.png)
-
-
 ## Technologies Used
 
 **Frontend:**

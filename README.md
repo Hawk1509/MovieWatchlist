@@ -21,7 +21,7 @@ Before you begin, ensure you have the following installed on your system:
 
 ## Screenshots
 
-![App Screenshot](https://www.etsy.com/market/movie_watchlist)
+![App Screenshot](/home/joseph/movieWatchlist/movie/Screenshots)
 
 
 ## Technologies Used

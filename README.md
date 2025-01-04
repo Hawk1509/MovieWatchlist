@@ -19,11 +19,6 @@ Before you begin, ensure you have the following installed on your system:
 
 
 
-## Screenshots
-
-![App Screenshot](https://www.etsy.com/market/movie_watchlist)
-
-
 ## Technologies Used
 
 **Frontend:**

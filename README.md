@@ -22,7 +22,7 @@ Before you begin, ensure you have the following installed on your system:
 ## Screenshots
 
 ### Home Page
-![Home Page Screenshot](https://github.com/Hawk1509/MovieWatchlist/blob/main/screenshots/home.png)
+![Home Page Screenshot](https://github.com/Hawk1509/MovieWatchlist/screenshots/home.png)
 
 ### Movie Details
 ![Movie Details Screenshot](https://github.com/Hawk1509/MovieWatchlist/blob/main/screenshots/details.png)
